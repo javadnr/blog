@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">   
+    <form class="form-horizontal form_middle" enctype='multipart/form-data' method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <a href="{% url 'category' %}">create category</a><br>
+    <input type="submit">
+</form>
+</div> 
+{% endblock content %}

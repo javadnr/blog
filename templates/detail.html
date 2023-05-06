@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  
+
+<div class="container"> 
+
+<a href="{% url 'list' %}">back</a>
+<h1>{{post.title}}</h1>
+
+{% if post.image %}
+<img id="image" src="{{ post.image.url }}" alt="" height="150" width="150"/>
+{% else %}
+<img id="image" src="{ images/default.jpg }" alt="" height="150" width="150"/>
+{% endif %}
+
+  <h4>in {{post.category}} | {{post.date_added}} | {{post.author}}</h4> 
+
+{{post.description }} <hr>
+{% if user.is_authenticated %}
+  
+
+<strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+  <form action="{% url 'blogpost_like' post.id %}" method="POST">
+    {% csrf_token %}
+
+    {% if post_is_liked %}
+    <button type="submit" name="blogpost_id" value="{{post.id}}" class="btn btn-info">Unlike</button>
+    {% else %}
+    <button type="submit" name="blogpost_id" value="{{post.id}}" class="btn btn-info">Like</button>
+    {% endif %}
+  </form>
+{% else %}
+<form action="{% url 'account_login'  %}" method="POST">
+  {% csrf_token %}
+
+  {% if post_is_liked %}
+  <button type="submit" name="blogpost_id" value="{{post.id}}" class="btn btn-info">Unlike</button>
+  {% else %}
+  <button type="submit" name="blogpost_id" value="{{post.id}}" class="btn btn-info">Like</button>
+  {% endif %}
+</form>
+{% endif %}
+
+
+<h2>comments...</h2>
+
+{% if user.is_authenticated %}
+  
+
+  
+{% if not post.comments.all %}
+  No comments yet... <a href="{% url 'comment' post.id %}">add comment</a>
+  {% else %}
+  <a href="{% url 'comment' post.id %}">add comment</a>
+  {% for comment in post.comments.all %}
+    <strong>
+      <br> {{comment.name}} - {{comment.date_added}} <br>
+        {{comment.body}}
+    </strong>
+  {% endfor %}
+  {% endif %}
+{% endif %}
+{% if not user.is_authenticated %}
+{% if not post.comments.all %}
+No comments yet... <a href="{% url 'account_login'  %}">add comment</a>
+{% else %}
+<a href="{% url 'account_login'  %}">add comment</a>
+{% for comment in post.comments.all %}
+  <strong>
+    <br> {{comment.name}} - {{comment.date_added}} <br>
+      <p>{{comment.body}}</p>
+  </strong>
+{% endfor %}
+{% endif %}
+{% endif %}
+</div> 
+{% endblock content %}

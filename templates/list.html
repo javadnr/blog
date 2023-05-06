@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container ">  
+ welcome {{user.username}} <br>
+
+{% for post in posts %}
+{% if post.image %} 
+<img id="image" src="{{ post.image.url }}" class="img-fluid" alt="" height="150" width="150"><br>
+{% else %}
+<img src="{ images/default.jpg }" class="img-fluid" alt="" height="150" width="150"><br>
+{% endif %}
+
+
+{% if user.is_superuser %}
+<a href="{% url 'update' post.id %}">{{post.title|title}}</a> <a href="{% url 'delete' post.id %}">delete</a> <br>
+
+{{post.category}} | added at {{post.date_added}} | liked by {{post.likes.count}} | written by {{post.author}}  <br>
+<p id="tagp">{{post.description}}</p>
+<a href="{% url 'detail' post.id %}">ادامه مطلب</a> <hr>
+{% else %}
+{{post.title|title}} <br>
+{{post.category}} | added at{{post.date_added}} | liked by {{post.likes.count}} | written by {{post.author}}  <br>
+<p id="tagp">{{post.description}}</p>
+<a href="{% url 'detail' post.id %}">ادامه مطلب</a> <hr>
+{% endif %}
+{% endfor %}
+</div>
+{% endblock content %}
