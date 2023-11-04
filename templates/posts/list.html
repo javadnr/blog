@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main id="main">
+<section id="hero-slider" class="hero-slider ">
+    <div class="container-md " data-aos="fade-in">
+      <div class="row">
+        <div class="col-12">
+          <div class="swiper sliderFeaturedPosts">
+            <div class="swiper-wrapper">
+              {% for post in posts|slice:"0:5" %}
+              <div class="swiper-slide">
+                <a href="{% url 'detail' post.id %}" class="img-bg d-flex align-items-end" style="background-image: url('{{post.image.url}}');">
+                  <div class="img-bg-inner">
+                    <h2>{{post.title|title}}</h2>
+                    <p>{{post.description|truncatewords:40}}</p>
+                  </div>
+                </a>
+              </div>
+                {% endfor %} 
+            </div>
+            <div class="custom-swiper-button-next">
+              <span class="bi-chevron-right"></span>
+            </div>
+            <div class="custom-swiper-button-prev">
+              <span class="bi-chevron-left"></span>
+            </div>
+
+            <div class="swiper-pagination"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="posts" class="posts ">
+
+    <div class="container" data-aos="fade-up">
+
+      <div class="row g-5">
+
+        <div class="col-lg-4">
+
+          <div class="post-entry-1 lg">
+            {% for post in posts%}
+            {% if forloop.first %}
+              
+            <a href="{% url 'detail' post.id %}"><img src="{{post.image.url}}" alt="" class="img-fluid"></a>
+            <div class="post-meta"><span class="date">{{post.category}}</span> <span class="mx-1">&bullet;</span> <span>{{post.date_added}}</span></div>
+            <h2><a href="{% url 'detail' post.id %}">{{post.title|title}}</a></h2>
+
+            <p class="mb-4 d-block">{{post.description|truncatewords:30}}</p>
+
+            <div class="d-flex align-items-center author">
+              <div class="photo"><img src="{% static 'img/dad.jpg' %}" alt="" class="img-fluid"></div>
+              <div class="name">
+                <h3 class="m-0 p-0">JavadNamavar</h3>
+              </div>
+            </div>
+            {% endif %}
+
+            {% endfor %} 
+
+          </div>
+          
+
+        </div>
+
+        <div class="col-lg-8">
+          <div class="row g-5">
+            <div class="col-lg-4 border-start custom-border">
+            {% for post in posts|slice:"1:4"%}
+              <div class="post-entry-1">
+                <a href="{% url 'detail' post.id %}"><img src="{{post.image.url}}" alt="" class="img-fluid"></a>
+                <div class="post-meta"><span class="date">{{post.category}}</span> <span class="mx-1">&bullet;</span> <span>{{post.date_added}}</span></div>
+                <h2><a href="{% url 'detail' post.id %}">{{post.title|title}}</a></h2>
+              </div>
+            {% endfor %}         
+            </div>
+            <div class="col-lg-4 border-start custom-border">
+                {% for post in posts|slice:"4:7"%}
+              <div class="post-entry-1">
+                <a href="{% url 'detail' post.id %}"><img src="{{post.image.url}}" alt="" class="img-fluid"></a>
+                <div class="post-meta"><span class="date">{{post.category}}</span> <span class="mx-1">&bullet;</span> <span>{{post.date_added}}</span></div>
+                <h2><a href="{% url 'detail' post.id %}">{{post.title|title}}</a></h2>
+              </div>
+            {% endfor %} 
+            </div>
+                          <!-- Trending Section -->
+                          
+                          <div class="col-lg-4">
+                              
+                              <div class="trending">
+                                  <h3>NOT BAD TO READ</h3>
+                                  <ul class="trending-post">
+                                    {% for post in posts|slice:"7:11"%}                                 
+                                <li>
+                                  <a href="{% url 'detail' post.id %}">
+                                    <span class="number">1</span>
+                                    <h3>{{post.title|title}}</h3>
+                                    <span class="author">JavadNamavar</span>
+                                  </a>
+                                </li>
+                                  {% endfor %} 
+                            </div>
+                          </div> 
+</main>
+
+{% endblock content %}

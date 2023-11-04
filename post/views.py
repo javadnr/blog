@@ -13,13 +13,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class PostListView(ListView):
     model = Post
-    template_name = 'list.html'
+    template_name = 'posts/list.html'
     context_object_name = 'posts'
     ordering = ['-date_added']
 
 class PostView(LoginRequiredMixin,CreateView):
     model = Post
-    template_name = 'post.html'
+    template_name = 'posts/post.html'
     form_class = PostCreateForm
     success_url = reverse_lazy('list')
     
@@ -30,7 +30,7 @@ class PostView(LoginRequiredMixin,CreateView):
     
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'detail.html'
+    template_name = 'posts/detail.html'
     context_object_name = 'post'
 
     def get_context_data(self, **kwargs):
@@ -42,6 +42,7 @@ class PostDetailView(DetailView):
             liked = True
         data['number_of_likes'] = likes_connected.number_of_likes()
         data['post_is_liked'] = liked
+        data['comment_form'] = CommentForm()
         return data
     
 def BlogPostLike(request, pk):
@@ -56,21 +57,30 @@ def BlogPostLike(request, pk):
     
 class PostUpdateView(LoginRequiredMixin,UpdateView):
     model = Post
-    template_name = 'update.html'
+    template_name = 'posts/update.html'
     fields = ['image','title','description','category']
     success_url = reverse_lazy('list')
      
+
+def category_posts(request,category_id):
+    category = Category.objects.get(id=category_id)
+    posts = Post.objects.filter(category=category)    
+    return render(request,'posts/category_posts.html',{'category':category, 'posts':posts})
+
+
 class CommentView(LoginRequiredMixin,CreateView):
     model = Comment
-    template_name = 'comment.html'
+    template_name = 'posts/comment.html'
     form_class = CommentForm
-    success_url = reverse_lazy('list')
+    success_url = '/{post_id}/detail'
     ordering = ['-date_added'] 
     
     
     def form_valid(self, form):
         form.instance.post_id = self.kwargs['pk']
         return super().form_valid(form)
+    
+
     
 class LogInView(LoginView):
     template_name = 'login.html'
@@ -92,20 +102,15 @@ def searchview(request):
     if request.method == "GET":
         searched = request.GET['searched']
         posts = Post.objects.filter(title__icontains = searched)
-        return render(request, "search.html",{'searched' :searched , 'posts': posts} )
+        return render(request, "posts/search.html",{'searched' :searched , 'posts': posts} )
     else: 
-        return render(request, "search.html",{'searched' :searched} )
+        return render(request, "posts/search.html",{'searched' :searched} )
 
-# class SearchView(ListView):
-#     model = Post
-#     template_name = 'search.html'
- 
-#     def get_queryset(self):
-#         query = query = self.request.GET.get("searched")
-#         post = Post.objects.filter(title__icontains = query)
-#         return post
+
 
 class DeletePostView(DeleteView):
     model = Post
-    template_name = 'delete_post.html'
+    template_name = 'posts/delete_post.html'
     success_url = reverse_lazy('list')
+
+

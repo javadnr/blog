@@ -6,6 +6,8 @@
 {% endblock title %}
 
 {% block content %}
+<main id="main">
+
     <form class="container" action="" method="POST">
         {% csrf_token %}
         {{ form|crispy }}

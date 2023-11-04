@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import DeletePostView, DeletePostView,BlogPostLike, PostView,PostListView,PostDetailView,PostUpdateView, CommentView, LogInView, RegisterView,CreateCategoryView,searchview
+from .views import DeletePostView, DeletePostView,BlogPostLike, PostView,PostListView,PostDetailView,PostUpdateView, CommentView, LogInView, RegisterView,CreateCategoryView,searchview,category_posts
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
@@ -19,4 +19,5 @@ urlpatterns = [
     path('category/',CreateCategoryView.as_view(), name="category"),
     path('search/',searchview, name="search"),
     path('delete/<int:pk>/',DeletePostView.as_view(), name="delete"),
+    path('category/<int:category_id>',category_posts,name="category_posts"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
