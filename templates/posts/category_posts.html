@@ -42,13 +42,22 @@
 
             <div class="text-start py-4v ">
               <div class="custom-pagination">
-                <a href="#" class="prev">Prevous</a>
-                <a href="#" class="active">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#" class="next">Next</a>
+                {% if posts.has_previous %}
+                <a class="prev"href="?page=1">&laquo; first</a>
+                <a class="prev" href="?page={{ posts.previous_page_number }}">previous</a>
+                {% endif %}
+                {% for num in posts.paginator.page_range %}
+                  {% if posts.number == num %}
+                    <span class="current-page">{{num}}</span>
+                    {% else %}
+                    <a href="?page={{num}}">{{num}}</a>
+                  {% endif %}
+                {% endfor %}
+                
+                  {% if posts.has_next %}
+                  <a href="?page={{ posts.next_page_number }}">next</a>
+                  <a class="next" href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+                  {% endif %}
               </div>
             </div>
           </div>

@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse,reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 
 
 
@@ -55,7 +56,7 @@ def BlogPostLike(request, pk):
     return HttpResponseRedirect(reverse('detail', args=[str(pk)]))    
 
     
-class PostUpdateView(LoginRequiredMixin,UpdateView):
+class PostUpdateView(LoginRequiredMixin,UpdateView):    
     model = Post
     template_name = 'posts/update.html'
     fields = ['image','title','description','category']
@@ -64,7 +65,10 @@ class PostUpdateView(LoginRequiredMixin,UpdateView):
 
 def category_posts(request,category_id):
     category = Category.objects.get(id=category_id)
-    posts = Post.objects.filter(category=category)    
+    post_list = Post.objects.filter(category=category)    
+    p = Paginator(post_list, 5)
+    page_number = request.GET.get("page")
+    posts = p.get_page(page_number)
     return render(request,'posts/category_posts.html',{'category':category, 'posts':posts})
 
 
