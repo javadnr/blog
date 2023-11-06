@@ -49,9 +49,8 @@
       </nav><!-- .navbar -->
 
       <div class="position-relative">
-        <a href="#" class="mx-2"><span class="bi-facebook"></span></a>
-        <a href="#" class="mx-2"><span class="bi-twitter"></span></a>
-        <a href="#" class="mx-2"><span class="bi-instagram"></span></a>
+        <a href="https://twitter.com/thefuckingjone" class="mx-2"><span class="bi-twitter"></span></a>
+        <a href="https://instagram.com/javadnamavarsrv?igshid=NzZlODBkYWE4Ng%3D%3D&utm_source=qr" class="mx-2"><span class="bi-instagram"></span></a>
 
         <a href="#" class="mx-2 js-search-open"><span class="bi-search"></span></a>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -158,7 +157,7 @@
 
             <ul class="footer-links footer-blog-entry list-unstyled">
               <li>
-                {% for post in posts|slice:"1:4"%}
+                {% for post in posts|slice:"0:4"%}
                 <a href="{% url 'detail' post.id %}" class="d-flex align-items-center">
                 <img src="{{post.image.url}}" alt="" class="img-fluid me-3" width='50' length='50'>
                 <div>
@@ -199,11 +198,8 @@
 
           <div class="col-md-6">
             <div class="social-links mb-3 mb-lg-0 text-center text-md-end">
-              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-              <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
-              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              <a href="https://twitter.com/thefuckingjone" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="https://instagram.com/javadnamavarsrv?igshid=NzZlODBkYWE4Ng%3D%3D&utm_source=qr" class="instagram"><i class="bi bi-instagram"></i></a>
             </div>
 
           </div>

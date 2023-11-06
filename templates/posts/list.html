@@ -93,14 +93,16 @@
                               <div class="trending">
                                   <h3>NOT BAD TO READ</h3>
                                   <ul class="trending-post">
-                                    {% for post in posts|slice:"7:11"%}                                 
+                                    {% for post in posts%}      
+                                    {% if post.trend  %}                         
                                 <li>
                                   <a href="{% url 'detail' post.id %}">
-                                    <span class="number">1</span>
+                                    <span class="number"></span>
                                     <h3>{{post.title|title}}</h3>
                                     <span class="author">JavadNamavar</span>
                                   </a>
                                 </li>
+                                {% endif %}  
                                   {% endfor %} 
                             </div>
                           </div> 

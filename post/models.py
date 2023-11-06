@@ -5,13 +5,15 @@ from django.urls import reverse
 
 class Post(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE)
-    image = models.ImageField(null = True, blank = True, upload_to='images/',default = 'default.jpg')
+    image = models.ImageField(null = True, blank = True, upload_to='images/',default = 'coding.jpg')
     title = models.CharField(max_length=200)
     description = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    likes = models.ManyToManyField(User,related_name='post_like')
+    likes = models.ManyToManyField(User,related_name='post_like',blank=True)
     category = models.ForeignKey('category',on_delete=models.CASCADE,null =True)
+    trend = models.BooleanField(default=False)
+    
     
     def __str__(self):
         return self.title

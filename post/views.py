@@ -68,8 +68,10 @@ def category_posts(request,category_id):
     post_list = Post.objects.filter(category=category)    
     p = Paginator(post_list, 5)
     page_number = request.GET.get("page")
-    posts = p.get_page(page_number)
-    return render(request,'posts/category_posts.html',{'category':category, 'posts':posts})
+    posts_c = p.get_page(page_number)
+    like_posts = Post.objects.order_by('-likes')
+
+    return render(request,'posts/category_posts.html',{'category':category, 'posts_c':posts_c,'like_posts':like_posts})
 
 
 class CommentView(LoginRequiredMixin,CreateView):
@@ -106,9 +108,15 @@ def searchview(request):
     if request.method == "GET":
         searched = request.GET['searched']
         posts = Post.objects.filter(title__icontains = searched)
-        return render(request, "posts/search.html",{'searched' :searched , 'posts': posts} )
+        like_posts = Post.objects.order_by('-likes')
+        trending = Post.objects.all()    
+        p = Paginator(posts, 5)
+        page_number = request.GET.get("page")
+        posts_s= p.get_page(page_number)
+
+        return render(request, "posts/search.html",{'searched' :searched , 'posts': posts, 'like_posts':like_posts, 'trending':trending, 'posts_s':posts_s} )
     else: 
-        return render(request, "posts/search.html",{'searched' :searched} )
+        return render(request, "posts/search.html",{'searched' :searched, 'like_posts':like_posts, 'trending':trending, 'posts_s':posts_s} )
 
 
 

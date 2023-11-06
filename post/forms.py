@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['image','title','description','category'] 
+        fields = ['image','title','description','category','trend'] 
         
 class CommentForm(forms.ModelForm):
     class Meta:
